@@ -168,7 +168,6 @@ void imu_rotation_left(void)
 
   if(target_heading_angle<=0)
   {
-      target_heading_angle+=360;
       while(1)
       {
         compass.read();
