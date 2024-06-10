@@ -122,39 +122,86 @@ void motor_B_control(int direction_b, int motor_speed_b) //모터 A의 방향(di
 void imu_rotation_right(void)
 {
 
-  while(heading < target_heading_angle)
+  if(target_heading_angle>=360)
   {
-    compass.read();
-    heading = compass.heading();
+      
+      while(1)
+      {
+        compass.read();
+        heading = compass.heading();
+        if(heading<180)
+        {
+            heading+=360;
+        }    
     
-    motor_A_control(HIGH,250);
-    motor_B_control(LOW,250);
+        motor_A_control(HIGH,250);
+        motor_B_control(LOW,250);
     
-    if(heading >= target_heading_angle)
-    {
-        break;
-    }
+        if(heading >= target_heading_angle)
+        {
+            break;
+        }
+      }
   }
   
+  else
+  {
+      
+      while(heading < target_heading_angle)
+      {
+        compass.read();
+        heading = compass.heading();
+    
+        motor_A_control(HIGH,250);
+        motor_B_control(LOW,250);
+    
+        if(heading >= target_heading_angle)
+        {
+            break;
+        }
+      }
+  }
 }
 
 void imu_rotation_left(void)
 {
 
-  target_heading_angle += 360;
-
-  while(heading > target_heading_angle)
+  if(target_heading_angle<=0)
   {
-    compass.read();
-    heading = compass.heading();
-    heading += 360;
+      target_heading_angle+=360;
+      while(1)
+      {
+        compass.read();
+        heading = compass.heading();
+        if(heading>180)
+        {
+            heading-=360;
+        }    
     
-    motor_A_control(LOW,250);
-    motor_B_control(HIGH,250);
+        motor_A_control(LOW,250);
+        motor_B_control(HIGH,250);
     
-    if(heading <= target_heading_angle)
+        if(heading <= target_heading_angle)
+        {
+            break;
+        }
+      }
+  }
+  else
+  {
+    while(heading > target_heading_angle)
     {
-        break;
+        compass.read();
+        heading = compass.heading();
+        heading += 360;
+    
+        motor_A_control(LOW,250);
+        motor_B_control(HIGH,250);
+    
+        if(heading <= target_heading_angle)
+        {
+            break;
+        }
     }
   }
   
