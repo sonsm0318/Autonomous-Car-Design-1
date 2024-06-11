@@ -253,7 +253,7 @@ void loop()
     {
       motor_A_control(HIGH,150); 
       motor_B_control(HIGH,255); 
-      delay(270);                              //첫 코너 직진           
+                                   //첫 코너 직진           
          
       compass.read();
       heading = compass.heading();
